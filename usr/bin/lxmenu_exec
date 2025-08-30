@@ -1,0 +1,224 @@
+#!/bin/bash
+
+########################################LANGUAGE########################################################
+LOCALDIR="/usr/share/lxpanel/locale"
+if [ "`cat /etc/default/locale | grep LANG= | grep de`" != "" ]; then
+. $LOCALDIR/de
+elif [ "`cat /etc/default/locale | grep LANG= | grep el`" != "" ]; then
+. $LOCALDIR/el
+elif [ "`cat /etc/default/locale | grep LANG= | grep es`" != "" ]; then
+. $LOCALDIR/es
+elif [ "`cat /etc/default/locale | grep LANG= | grep fr`" != "" ]; then
+. $LOCALDIR/fr
+elif [ "`cat /etc/default/locale | grep LANG= | grep hu`" != "" ]; then
+. $LOCALDIR/hu
+elif [ "`cat /etc/default/locale | grep LANG= | grep id_ID`" != "" ]; then
+. $LOCALDIR/id_ID
+elif [ "`cat /etc/default/locale | grep LANG= | grep it`" != "" ]; then
+. $LOCALDIR/it
+elif [ "`cat /etc/default/locale | grep LANG= | grep ja`" != "" ]; then
+. $LOCALDIR/ja
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_BR`" != "" ]; then
+. $LOCALDIR/pt
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_PT`" != "" ]; then
+. $LOCALDIR/pt
+elif [ "`cat /etc/default/locale | grep LANG= | grep ru`" != "" ]; then
+. $LOCALDIR/ru
+elif [ "`cat /etc/default/locale | grep LANG= | grep zh_CN`" != "" ]; then
+. $LOCALDIR/zh_CN
+else
+. $LOCALDIR/en
+fi
+#########################################################################################################
+function GTKC () 
+{
+if [ -f $HOME/.config/gtk-3.0/gtk.css ]; then
+echo
+else
+FILEGTK="$HOME/.config/gtk-3.0/gtk.css"
+echo ".container" { >> "$FILEGTK"
+echo "background-color: #theme_bg_color;" >> "$FILEGTK"
+echo "opacity: 1.00;" >> "$FILEGTK"
+echo "border-radius: 20px;" >> "$FILEGTK"
+echo "margin: 10px;" >> "$FILEGTK"
+echo "box-shadow: inset 0 0 0 1px alpha (shade (#000, 1.7), 0.05), inset 0 0 0 0 alpha (shade (#ccc, 1.7), 0.45), inset 0 -1px 0 0 alpha (shade (#000, 1.7), 0.15), 0 3px 2px -1px alpha (shade (#000, 0.5), 0.2), 0 3px 5px alpha (shade (#000, 0.5), 0.15);" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".sidebar {" >> "$FILEGTK"
+echo "background-color: transparent;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".menuitem.button.flat:selected, treeview.view:selected {" >> "$FILEGTK"
+echo "background-color: @theme_selected_bg_color;" >> "$FILEGTK"
+echo "color: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".searchbox {" >> "$FILEGTK"
+echo "background: #theme_bg_color;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+fi
+}
+export -f GTKC
+#########################################################################################################
+function GTK () 
+{
+if [ -f $HOME/.config/gtk-3.0/gtk.css ]; then
+echo
+else
+FILEGTK="$HOME/.config/gtk-3.0/gtk.css"
+echo ".container" { >> "$FILEGTK"
+echo "background-color: #theme_bg_color;" >> "$FILEGTK"
+echo "opacity: 1.00;" >> "$FILEGTK"
+echo "border-radius: 0px;" >> "$FILEGTK"
+echo "margin: 0px;" >> "$FILEGTK"
+echo "box-shadow: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".sidebar {" >> "$FILEGTK"
+echo "background-color: transparent;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".menuitem.button.flat:selected, treeview.view:selected {" >> "$FILEGTK"
+echo "background-color: @theme_selected_bg_color;" >> "$FILEGTK"
+echo "color: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".searchbox {" >> "$FILEGTK"
+echo "background: #theme_bg_color;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+fi
+}
+export -f GTK
+#########################################################################################################
+function CONFIGC () 
+{
+if [ -f $HOME/.config/lxmenu_config ]; then
+echo
+else
+FILESAVE="$HOME/.config/lxmenu_config"
+echo v1="TRUE" >> "$FILESAVE"
+echo v2="TRUE" >> "$FILESAVE"
+echo v3="TRUE" >> "$FILESAVE"
+echo v4="TRUE" >> "$FILESAVE"
+echo v5="FALSE" >> "$FILESAVE"
+echo v6="#ffffff" >> "$FILESAVE"
+echo v7="FALSE" >> "$FILESAVE"
+echo v8="#ffffff" >> "$FILESAVE"
+echo v9="3" >> "$FILESAVE"
+echo v10="6" >> "$FILESAVE"
+echo v11="11" >> "$FILESAVE"
+echo v12="64" >> "$FILESAVE"
+echo v13="20" >> "$FILESAVE"
+echo v14="10" >> "$FILESAVE"
+echo v15="1.00" >> "$FILESAVE"
+echo v16="/usr/share/lxpanel/images/lxmenu.svg" >> "$FILESAVE"
+echo v17="$C18!$C19" >> "$FILESAVE"
+chmod 777 -R $HOME/.config/lxmenu_config
+fi
+killall lxmenu
+}
+export -f CONFIGC
+#########################################################################################################
+function CONFIG () 
+{
+if [ -f $HOME/.config/lxmenu_config ]; then
+echo
+else
+FILESAVE="$HOME/.config/lxmenu_config"
+echo v1="TRUE" >> "$FILESAVE"
+echo v2="TRUE" >> "$FILESAVE"
+echo v3="FALSE" >> "$FILESAVE"
+echo v4="FALSE" >> "$FILESAVE"
+echo v5="FALSE" >> "$FILESAVE"
+echo v6="#ffffff" >> "$FILESAVE"
+echo v7="FALSE" >> "$FILESAVE"
+echo v8="#ffffff" >> "$FILESAVE"
+echo v9="3" >> "$FILESAVE"
+echo v10="6" >> "$FILESAVE"
+echo v11="11" >> "$FILESAVE"
+echo v12="64" >> "$FILESAVE"
+echo v13="20" >> "$FILESAVE"
+echo v14="10" >> "$FILESAVE"
+echo v15="1.00" >> "$FILESAVE"
+echo v16="/usr/share/lxpanel/images/lxmenu.svg" >> "$FILESAVE"
+echo v17="$C18!$C19" >> "$FILESAVE"
+chmod 777 -R $HOME/.config/lxmenu_config
+fi
+killall lxmenu
+}
+export -f CONFIG
+#########################################################################################################
+if pgrep compton >/dev/null 2>&1; then
+GTKC
+CONFIGC
+else
+GTK
+CONFIG
+fi
+#########################################################################################################
+FILEXEC="$HOME/.config/lxmenu_exec"
+function LXMENU_FIND () {
+echo "#!/bin/bash" >> "$FILEXEC"
+if command -v /usr/lib/x86_64-linux-gnu/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/lib/x86_64-linux-gnu/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+elif command -v /usr/local/lib/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/local/lib/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+elif command -v /usr/lib/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/lib/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+else
+echo "error"
+fi
+chmod 777 -R $HOME/.config/lxmenu_exec
+}
+export -f LXMENU_FIND
+############################################################################################
+function COMPOSITE () {
+if pgrep compton >/dev/null 2>&1; then
+LXMENU_FIND
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+else
+LXMENU_FIND
+sed -i "/box-shadow: /c box-shadow: none;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/border-radius/c border-radius: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: 0px;" $HOME/.config/gtk-3.0/gtk.css
+v3=FALSE
+v4=FALSE
+VAR1=RO
+rang1=
+VAR2=RO
+rang2=
+VAR3=RO
+rang3=
+killall lxmenu
+chmod 777 -R $HOME/.config/lxmenu_exec
+fi
+}
+############################################################################################
+function SNCOMPTON () {
+. $HOME/.config/lxmenu_config
+if pgrep compton >/dev/null 2>&1; then
+sed -i "/border-radius/c border-radius: ${v13}px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: ${v14}px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/v3/c v3=TRUE" $HOME/.config/lxmenu_config
+else
+sed -i "/box-shadow: /c box-shadow: none;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/border-radius/c border-radius: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/v4/c v4=FALSE" $HOME/.config/lxmenu_config
+v3=FALSE
+v4=FALSE
+VAR1=RO
+rang1=
+VAR2=RO
+rang2=
+VAR3=RO
+rang3=
+killall lxmenu
+fi
+}
+############################################################################################
+if [ -f $HOME/.config/lxmenu_exec ]; then
+SNCOMPTON
+$FILEXEC
+else
+killall lxmenu
+COMPOSITE
+chmod 777 -R $HOME/.config/lxmenu_exec
+$FILEXEC
+fi

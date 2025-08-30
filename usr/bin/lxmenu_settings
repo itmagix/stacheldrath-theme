@@ -1,0 +1,473 @@
+#!/bin/bash
+# dep. deconf-cli, yad > 0.4
+
+. $HOME/.config/lxmenu_config
+
+########################################LANGUAGE########################################################
+LOCALDIR="/usr/share/lxpanel/locale"
+if [ "`cat /etc/default/locale | grep LANG= | grep de`" != "" ]; then
+. $LOCALDIR/de
+elif [ "`cat /etc/default/locale | grep LANG= | grep el`" != "" ]; then
+. $LOCALDIR/el
+elif [ "`cat /etc/default/locale | grep LANG= | grep es`" != "" ]; then
+. $LOCALDIR/es
+elif [ "`cat /etc/default/locale | grep LANG= | grep fr`" != "" ]; then
+. $LOCALDIR/fr
+elif [ "`cat /etc/default/locale | grep LANG= | grep hu`" != "" ]; then
+. $LOCALDIR/hu
+elif [ "`cat /etc/default/locale | grep LANG= | grep id_ID`" != "" ]; then
+. $LOCALDIR/id_ID
+elif [ "`cat /etc/default/locale | grep LANG= | grep it`" != "" ]; then
+. $LOCALDIR/it
+elif [ "`cat /etc/default/locale | grep LANG= | grep ja`" != "" ]; then
+. $LOCALDIR/ja
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_BR`" != "" ]; then
+. $LOCALDIR/pt
+elif [ "`cat /etc/default/locale | grep LANG= | grep pt_PT`" != "" ]; then
+. $LOCALDIR/pt
+elif [ "`cat /etc/default/locale | grep LANG= | grep ru`" != "" ]; then
+. $LOCALDIR/ru
+elif [ "`cat /etc/default/locale | grep LANG= | grep zh_CN`" != "" ]; then
+. $LOCALDIR/zh_CN
+else
+. $LOCALDIR/en
+fi
+###################################### CHECK YAD #######################################################
+if command -v yad > /dev/null; then
+echo ""
+else
+x-terminal-emulator -e sudo apt-get install -q -y yad
+if [ "$?" -ne "0" ]; then
+echo -e "error YAD"
+fi
+fi
+###################################### CHECK DCONF-CLI #################################################
+if dpkg-query -W -f'${db:Status-Abbrev}\n' dconf-cli 2>/dev/null \ | grep -q '^.i $'; then
+echo
+else
+x-terminal-emulator -e sudo apt-get install -q -y dconf-cli
+if [ "$?" -ne "0" ]; then
+echo -e "error DCONF-CLI"
+fi
+fi
+###################################### CHECK COMPTON ###################################################
+function COMPTON () 
+{
+if command -v compton > /dev/null; then
+echo ""
+else
+x-terminal-emulator -e sudo apt-get install -y compton
+sleep 5 && /usr/bin/compton --vsync opengl-swc --backend glx
+if [ "$?" -ne "0" ]; then
+echo -e "error COMPTON"
+fi
+fi
+}
+export -f COMPTON
+########################################################################################################
+function LXMENU () 
+{
+if [ -f $HOME/.config/lxmenu_exec ]; then
+echo
+else
+FILEXEC="$HOME/.config/lxmenu_exec"
+echo "#!/bin/bash" >> "$FILEXEC"
+if command -v /usr/lib/x86_64-linux-gnu/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/lib/x86_64-linux-gnu/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+elif command -v /usr/local/lib/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/local/lib/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+elif command -v /usr/lib/lxpanel/plugins/lxmenu > /dev/null; then
+echo "/usr/lib/lxpanel/plugins/lxmenu" >> "$FILEXEC"
+fi
+fi
+chmod 777 -R $HOME/.config/lxmenu_exec
+}
+LXMENU
+#########################################################################################################
+function GTKC () 
+{
+if [ -f $HOME/.config/gtk-3.0/gtk.css ]; then
+echo
+else
+FILEGTK="$HOME/.config/gtk-3.0/gtk.css"
+echo ".container" { >> "$FILEGTK"
+echo "background-color: #theme_bg_color;" >> "$FILEGTK"
+echo "opacity: 1.00;" >> "$FILEGTK"
+echo "border-radius: 20px;" >> "$FILEGTK"
+echo "margin: 10px;" >> "$FILEGTK"
+echo "box-shadow: inset 0 0 0 1px alpha (shade (#000, 1.7), 0.05), inset 0 0 0 0 alpha (shade (#ccc, 1.7), 0.45), inset 0 -1px 0 0 alpha (shade (#000, 1.7), 0.15), 0 3px 2px -1px alpha (shade (#000, 0.5), 0.2), 0 3px 5px alpha (shade (#000, 0.5), 0.15);" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".sidebar {" >> "$FILEGTK"
+echo "background-color: transparent;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".menuitem.button.flat:selected, treeview.view:selected {" >> "$FILEGTK"
+echo "background-color: @theme_selected_bg_color;" >> "$FILEGTK"
+echo "color: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".searchbox {" >> "$FILEGTK"
+echo "background: #theme_bg_color;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+fi
+}
+export -f GTKC
+#########################################################################################################
+function GTK () 
+{
+if [ -f $HOME/.config/gtk-3.0/gtk.css ]; then
+echo
+else
+FILEGTK="$HOME/.config/gtk-3.0/gtk.css"
+echo ".container" { >> "$FILEGTK"
+echo "background-color: #theme_bg_color;" >> "$FILEGTK"
+echo "opacity: 1.00;" >> "$FILEGTK"
+echo "border-radius: 0px;" >> "$FILEGTK"
+echo "margin: 0px;" >> "$FILEGTK"
+echo "box-shadow: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".sidebar {" >> "$FILEGTK"
+echo "background-color: transparent;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".menuitem.button.flat:selected, treeview.view:selected {" >> "$FILEGTK"
+echo "background-color: @theme_selected_bg_color;" >> "$FILEGTK"
+echo "color: none;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+echo ".searchbox {" >> "$FILEGTK"
+echo "background: #theme_bg_color;" >> "$FILEGTK"
+echo "}" >> "$FILEGTK"
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+fi
+}
+export -f GTK
+#########################################################################################################
+function CONFIGC () 
+{
+if [ -f $HOME/.config/lxmenu_config ]; then
+echo
+else
+FILESAVE="$HOME/.config/lxmenu_config"
+echo v1="TRUE" >> "$FILESAVE"
+echo v2="TRUE" >> "$FILESAVE"
+echo v3="TRUE" >> "$FILESAVE"
+echo v4="TRUE" >> "$FILESAVE"
+echo v5="FALSE" >> "$FILESAVE"
+echo v6="#ffffff" >> "$FILESAVE"
+echo v7="FALSE" >> "$FILESAVE"
+echo v8="#ffffff" >> "$FILESAVE"
+echo v9="3" >> "$FILESAVE"
+echo v10="6" >> "$FILESAVE"
+echo v11="11" >> "$FILESAVE"
+echo v12="64" >> "$FILESAVE"
+echo v13="20" >> "$FILESAVE"
+echo v14="10" >> "$FILESAVE"
+echo v15="1.00" >> "$FILESAVE"
+echo v16="/usr/share/lxpanel/images/lxmenu.svg" >> "$FILESAVE"
+echo v17="$C18!$C19" >> "$FILESAVE"
+chmod 777 -R $HOME/.config/lxmenu_config
+fi
+}
+export -f CONFIGC
+#########################################################################################################
+function CONFIG () 
+{
+if [ -f $HOME/.config/lxmenu_config ]; then
+echo
+else
+FILESAVE="$HOME/.config/lxmenu_config"
+echo v1="TRUE" >> "$FILESAVE"
+echo v2="TRUE" >> "$FILESAVE"
+echo v3="FALSE" >> "$FILESAVE"
+echo v4="FALSE" >> "$FILESAVE"
+echo v5="FALSE" >> "$FILESAVE"
+echo v6="#ffffff" >> "$FILESAVE"
+echo v7="FALSE" >> "$FILESAVE"
+echo v8="#ffffff" >> "$FILESAVE"
+echo v9="3" >> "$FILESAVE"
+echo v10="6" >> "$FILESAVE"
+echo v11="11" >> "$FILESAVE"
+echo v12="64" >> "$FILESAVE"
+echo v13="20" >> "$FILESAVE"
+echo v14="10" >> "$FILESAVE"
+echo v15="1.00" >> "$FILESAVE"
+echo v16="/usr/share/lxpanel/images/lxmenu.svg" >> "$FILESAVE"
+echo v17="$C18!$C19" >> "$FILESAVE"
+chmod 777 -R $HOME/.config/lxmenu_config
+fi
+}
+export -f CONFIG
+#########################################################################################################
+if pgrep compton >/dev/null 2>&1; then
+GTKC
+CONFIGC
+else
+GTK
+CONFIG
+fi
+#########################################################################################################
+function AUTOSTARTC ()
+{
+if [ -d $HOME/.config/autostart/ ]; then
+echo
+else
+mkdir $HOME/.config/autostart/
+fi
+if [ -f $HOME/.config/autostart/compton.desktop ]; then
+echo
+else
+AUTO="$HOME/.config/autostart/compton.desktop"
+echo "[Desktop Entry]" >> "$AUTO"
+echo "Name=compton" >> "$AUTO"
+echo "Exec=/usr/bin/compton --vsync opengl-swc --backend glx" >> "$AUTO"
+chmod 777 -R $HOME/.config/autostart/compton.desktop
+fi
+}
+export -f AUTOSTARTC
+#########################################################################################################
+if pgrep compton >/dev/null 2>&1; then
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+VAR1=NUM
+rang1=!0..40!1
+VAR2=NUM
+rang2=!0..100!1
+VAR3=NUM
+rang3=\!0..1\!0.01\!2
+else
+sed -i "/box-shadow: /c box-shadow: none;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/border-radius/c border-radius: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: 0px;" $HOME/.config/gtk-3.0/gtk.css
+v3=FALSE
+v4=FALSE
+VAR1=RO
+rang1=
+VAR2=RO
+rang2=
+VAR3=RO
+rang3=
+killall lxmenu
+chmod 777 -R $HOME/.config/lxmenu_exec
+fi
+#########################################################################################################
+function OPENBOXC ()
+{
+if grep "\compton\b" $HOME/.config/openbox/autostart.sh; then
+echo
+else
+echo -e "\n/usr/bin/compton --vsync opengl-swc --backend glx" >> $HOME/.config/openbox/autostart.sh
+sed -i '/^$/d' $HOME/.config/openbox/autostart.sh
+fi
+}
+export -f OPENBOXC
+#########################################################################################################
+SELCO='<span font=\"10\"> '$C8' </span>'
+VANT="$v16"
+BANNER='<span font="32">'$C0'</span><span font="14.5">\n '$C1'\n\n</span>'
+#########################################################################################################
+. $HOME/.config/lxmenu_config
+Configuration=$(yad --title "$C0" --center --fixed \
+    --borders="25" --mouse --form --window-icon="gnome-settings" --columns=2 \
+    --image-on-top --image="/usr/share/lxpanel/images/lxmenu-settings.svg" \
+    --text="$BANNER" --always-print-result \
+    --icons --button="$B1!gtk-refresh!:2" --button="$B3!gtk-ok!:0" --button="$B2!gtk-cancel!:1" \
+    --field " $C2  :CHK" "$v1" $ca \
+    --field " $C3  :CHK" "$v2" $cf \
+    --field " $C4  :CHK" "$v3" $comp \
+    --field " $C5  :CHK" "$v4" $so \
+    --field " $C6 :CHK" "$v5" $cwin \
+    --field "           $SELCO   :CLR" "$v6" $scw \
+    --field " $C7  :CHK" "$v7" $cbus \
+    --field "           $SELCO   :CLR" "$v8" $scbus \
+    --field " \n:lbl" "" $line1 \
+    --field " \n:lbl" "" $line2 \
+    --field "            $C9    :NUM" "$v9!1..20!1" $fi \
+    --field "            $C10   :NUM" "$v10!1..20!1" $co \
+    --field "            $C11   :NUM" "$v11!1..20!1" $fu \
+    --field "            $C12   :NUM" "$v12!16..128!16" $ic \
+    --field "            $C13   :$VAR1" "$v13$rang1" $bo \
+    --field "            $C14   :$VAR2" "$v14$rang2" $ma \
+    --field "            $C15   :$VAR3" "$v15$rang3" $op \
+    --field="            $C16   :FL" "$v16" $icon \
+    --field="            $C17   :CB" "$v17" $po \
+    --field " \n:lbl" "" $line 3 \
+    --file-filter="Image Files (*.svg *.png)| *.svg *.SVG *.png *.PNG" \
+)
+button1=$?
+case $button1 in
+1) 
+echo "Exiting" && exit
+;;
+#########################################################################################################
+0) 
+ca=$(echo $Configuration     | awk -F '|' '{ print $1 }')
+cf=$(echo $Configuration     | awk -F '|' '{ print $2 }')
+comp=$(echo $Configuration     | awk -F '|' '{ print $3 }')
+so=$(echo $Configuration     | awk -F '|' '{ print $4 }')
+cwin=$(echo $Configuration     | awk -F '|' '{ print $5 }')
+scw=$(echo $Configuration     | awk -F '|' '{ print $6 }')
+cbus=$(echo $Configuration     | awk -F '|' '{ print $7 }')
+scbus=$(echo $Configuration     | awk -F '|' '{ print $8 }')
+line1=$(echo $Configuration     | awk -F '|' '{ print $9 }')
+line2=$(echo $Configuration     | awk -F '|' '{ print $10 }')
+fi=$(echo $Configuration     | awk -F '|' '{ print $11 }')
+co=$(echo $Configuration     | awk -F '|' '{ print $12 }')
+fu=$(echo $Configuration     | awk -F '|' '{ print $13 }')
+ic=$(echo $Configuration     | awk -F '|' '{ print $14 }')
+bo=$(echo $Configuration     | awk -F '|' '{ print $15 }')
+ma=$(echo $Configuration     | awk -F '|' '{ print $16 }')
+op=$(echo $Configuration     | awk -F '|' '{ print $17 }')
+icon=$(echo $Configuration     | awk -F '|' '{ print $18 }')
+po=$(echo $Configuration     | awk -F '|' '{ print $19 }')
+#########################################################################################################
+cam=$(echo $ca | tr '[:upper:]' '[:lower:]')
+cfm=$(echo $cf | tr '[:upper:]' '[:lower:]')
+compo=$(echo $comp | tr '[:upper:]' '[:lower:]')
+som=$(echo $so | tr '[:upper:]' '[:lower:]')
+cwind=$(echo $cwin | tr '[:upper:]' '[:lower:]')
+cbusq=$(echo $cbus | tr '[:upper:]' '[:lower:]')
+opac=$(echo $op | tr ',' '.')
+#########################################################################################################
+killall lxmenu
+if [ -d $HOME/.icons/ ]; then
+echo
+else
+mkdir $HOME/.icons/
+fi
+cp $icon  $HOME/.icons/lxmenu.svg
+
+if $som != 0; then
+sed -i "/box-shadow: /c box-shadow: inset 0 0 0 1px alpha (shade (#000, 1.7), 0.05), inset 0 0 0 0 alpha (shade (#ccc, 1.7), 0.45), inset 0 -1px 0 0 alpha (shade (#000, 1.7), 0.15), 0 3px 2px -1px alpha (shade (#000, 0.5), 0.2), 0 3px 5px alpha (shade (#000, 0.5), 0.15);" $HOME/.config/gtk-3.0/gtk.css
+else
+sed -i "/box-shadow: /c box-shadow: none;" $HOME/.config/gtk-3.0/gtk.css
+fi
+
+sed -i "/border-radius/c border-radius: ${bo}px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: ${ma}px;" $HOME/.config/gtk-3.0/gtk.css
+
+if $compo != 0; then
+echo
+else
+sed -i "/border-radius/c border-radius: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/margin/c margin: 0px;" $HOME/.config/gtk-3.0/gtk.css
+sed -i "/box-shadow: /c box-shadow: none;" $HOME/.config/gtk-3.0/gtk.css
+fi
+
+dconf write /org/lxde/lxmenu/rows $fi;
+dconf write /org/lxde/lxmenu/columns $co;
+dconf write /org/lxde/lxmenu/font-size $fu.0;
+dconf write /org/lxde/lxmenu/icon-size $ic;
+dconf write /org/lxde/lxmenu/use-category $cam;
+dconf write /org/lxde/lxmenu/show-category-filter $cfm;
+
+if [ "$po" != "$C18" ]; then
+dconf write /org/lxde/lxmenu/show-at-top true;
+else
+dconf write /org/lxde/lxmenu/show-at-top false;
+fi
+
+sed -i "/opacity: /c opacity: $opac;" $HOME/.config/gtk-3.0/gtk.css
+
+if $cwind != 0; then
+sed -i "/background-color: #/c background-color: ${scw};" $HOME/.config/gtk-3.0/gtk.css
+fi
+
+if $cbusq != 0; then
+sed -i "/background: #/c background: ${scbus};" $HOME/.config/gtk-3.0/gtk.css
+fi
+
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+#########################################################################################################
+v1=$(echo $Configuration     | awk -F '|' '{ print $1 }')
+v2=$(echo $Configuration     | awk -F '|' '{ print $2 }')
+v3=$(echo $Configuration     | awk -F '|' '{ print $3 }')
+v4=$(echo $Configuration     | awk -F '|' '{ print $4 }')
+v5=$(echo $Configuration     | awk -F '|' '{ print $5 }')
+v6=$(echo $Configuration     | awk -F '|' '{ print $6 }')
+v7=$(echo $Configuration     | awk -F '|' '{ print $7 }')
+v8=$(echo $Configuration     | awk -F '|' '{ print $8 }')
+v9=$(echo $Configuration     | awk -F '|' '{ print $11 }')
+v10=$(echo $Configuration     | awk -F '|' '{ print $12 }')
+v11=$(echo $Configuration     | awk -F '|' '{ print $13 }')
+v12=$(echo $Configuration     | awk -F '|' '{ print $14 }')
+v13=$(echo $Configuration     | awk -F '|' '{ print $15 }')
+v14=$(echo $Configuration     | awk -F '|' '{ print $16 }')
+v15=$(echo $Configuration     | awk -F '|' '{ print $17 }')
+v16=$(echo $Configuration     | awk -F '|' '{ print $18 }')
+v17=$(echo $Configuration     | awk -F '|' '{ print $19 }')
+#########################################################################################################
+rm $HOME/.config/lxmenu_config
+FILESAVE="$HOME/.config/lxmenu_config"
+echo v1="$v1" >> "$FILESAVE"
+echo v2="$v2" >> "$FILESAVE"
+echo v3="$v3" >> "$FILESAVE"
+echo v4="$v4" >> "$FILESAVE"
+echo v5="$v5" >> "$FILESAVE"
+echo v6="$v6" >> "$FILESAVE"
+echo v7="$v7" >> "$FILESAVE"
+echo v8="$v8" >> "$FILESAVE"
+echo v9="$v9" >> "$FILESAVE"
+echo v10="$v10" >> "$FILESAVE"
+echo v11="$v11" >> "$FILESAVE"
+echo v12="$v12" >> "$FILESAVE"
+echo v13="$v13" >> "$FILESAVE"
+echo v14="$v14" >> "$FILESAVE"
+echo v15="$opac" >> "$FILESAVE"
+echo v16="$v16" >> "$FILESAVE"
+if [ "$po" == "$C18" ]; then
+echo v17="$C18!$C19" >> "$FILESAVE"
+else
+echo v17="$C19!$C18" >> "$FILESAVE"
+fi
+chmod 777 -R $HOME/.config/lxmenu_config
+#########################################################################################################
+if [ "$icon" != "$VANT" ]; then
+lxpanelctl restart
+fi
+
+if $compo != 0; then
+COMPTON
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+AUTOSTARTC
+OPENBOXC
+sed -i "/NotShowIn/d" $HOME/.config/autostart/compton.desktop
+/usr/bin/compton --vsync opengl-swc --backend glx
+exit 0
+else
+killall compton
+rm $HOME/.config/autostart/compton.desktop
+sed -i "/compton/d" $HOME/.config/openbox/autostart.sh
+sed -i '/^$/d' $HOME/.config/openbox/autostart.sh
+fi
+;;
+#########################################################################################################
+2) 
+### restore defaults ###
+rm $HOME/.config/gtk-3.0/gtk.css
+rm $HOME/.config/lxmenu_config
+rm $HOME/.config/lxmenu_exec
+if pgrep compton >/dev/null 2>&1; then
+GTKC
+CONFIGC
+else
+GTK
+CONFIG
+fi
+LXMENU
+chmod 777 -R $HOME/.config/gtk-3.0/gtk.css
+cp /usr/share/lxpanel/images/lxmenu.svg $HOME/.icons/lxmenu.svg
+dconf write /org/lxde/lxmenu/rows 3
+dconf write /org/lxde/lxmenu/columns 6
+dconf write /org/lxde/lxmenu/font-size 11.0
+dconf write /org/lxde/lxmenu/icon-size 64
+dconf write /org/lxde/lxmenu/use-category true
+dconf write /org/lxde/lxmenu/show-category-filter true
+dconf write /org/lxde/lxmenu/show-at-top false
+xfconf-query -c xfwm4 -p /general/use_compositing -s false
+chmod 777 -R $HOME/.config/lxmenu_exec
+sed -i "/x86_64-linux-gnu/c /usr/lib/x86_64-linux-gnu/lxpanel/plugins/lxmenu" $HOME/.config/lxmenu_exec
+sed -i "/local/c /usr/local/lib/lxpanel/plugins/lxmenu" $HOME/.config/lxmenu_exec
+sed -i "/usr/lib/lxpanel/c /usr/lib/lxpanel/plugins/lxmenu" $HOME/.config/lxmenu_exec
+killall lxmenu
+lxpanelctl restart
+lxmenu_settings
+;;
+esac
+#########################################################################################################

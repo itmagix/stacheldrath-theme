@@ -1,0 +1,6 @@
+XDG_VIDEOS_DIR="/home/stacheldrath/Videos"
+XDG_PICTURES_DIR="/home/stacheldrath/Pictures"
+XDG_MUSIC_DIR="/home/stacheldrath/Music"
+XDG_DOCUMENTS_DIR="/home/stacheldrath/Documents"
+XDG_TEMPLATES_DIR="/home/stacheldrath/Templates"
+XDG_DOWNLOAD_DIR="/home/stacheldrath/Downloads"
