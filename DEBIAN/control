@@ -1,5 +1,5 @@
 Package: stacheldrath-theme
-Version: 0.5
+Version: 0.6
 Maintainer: John Kramer
 Architecture: all
 Description: Configures the default theme and configurations for the Stacheldrath user in LXQt
