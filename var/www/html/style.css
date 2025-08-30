@@ -1,0 +1,53 @@
+body {
+  background: #000;
+  background-image: url('default.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+canvas {
+  background: #101010;
+  box-shadow: 0 0 0 2px #191919;
+  display: block;
+  left: 50%;
+  margin: -200px 0 0 -300px;
+  position: absolute;
+  top: 50%;
+  z-index: -1;
+}
+
+h2 {
+  text-align: center;
+  background: white;
+  color: purple;
+}
+
+.collapsible {
+  background-color: purple;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 30%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 18px;
+}
+
+.active, .collapsible:hover {
+  background-color: white;
+  color: purple;
+}
+
+.code-text {
+  test-align: left;
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #fff;
+}
