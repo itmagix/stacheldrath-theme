@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Set permission to stacheldrath user..."
+echo "Set permissions to stacheldrath user..."
 chown -R /home/stacheldrath/Desktop/0xDEADBEEF
 
 exit 0
