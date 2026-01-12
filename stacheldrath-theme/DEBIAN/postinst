@@ -3,6 +3,6 @@
 set -e
 
 echo "Set permissions to stacheldrath user..."
-chown -R /home/stacheldrath/Desktop/0xDEADBEEF
+chown stacheldrath:stacheldrath -R /home/stacheldrath/Desktop/0xDEADBEEF
 
 exit 0
