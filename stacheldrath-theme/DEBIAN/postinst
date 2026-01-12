@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+echo "Set permission to stacheldrath user..."
+chown -R /home/stacheldrath/Desktop/0xDEADBEEF
+
+exit 0
