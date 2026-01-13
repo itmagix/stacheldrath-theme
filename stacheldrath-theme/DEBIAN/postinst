@@ -3,6 +3,7 @@
 set -e
 
 echo "Set permissions to stacheldrath user..."
+chown stacheldrath:stacheldrath -R /home/stacheldrath/.themes
 chown stacheldrath:stacheldrath -R /home/stacheldrath/Desktop/0xDEADBEEF
 
 exit 0
